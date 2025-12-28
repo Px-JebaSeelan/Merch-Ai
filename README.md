@@ -2,8 +2,6 @@
 
 > Transform your ideas into stunning T-shirt designs using AI-powered image generation.
 
-![Merch AI Demo](https://via.placeholder.com/800x400?text=Merch+AI+Demo)
-
 ## 🚀 Live Demo
 
 - **Frontend**: [Vercel Deployment URL]
