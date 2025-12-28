@@ -4,77 +4,94 @@
 
 ## 🚀 Live Demo
 
-- **Frontend**: [Vercel Deployment URL]
-- **Backend**: [Render Deployment URL]
+- **Frontend**: [Your Vercel URL]
+- **Backend**: [Your Render URL]
 
 ---
 
-## 📝 Technical Write-up
+## ✨ Features
 
-**AI Model Used**: Pollination's Flux API (open-source text-to-image model based on Black Forest Labs' FLUX.1)
+| Feature | Description |
+|---------|-------------|
+| 🎨 **AI Design Generation** | Describe any concept and get instant artwork |
+| 👕 **6 T-Shirt Colors** | White, Black, Navy, Red, Forest, Purple |
+| 🎭 **6 Style Presets** | Minimalist, Vintage, Neon, Watercolor, Cartoon, Abstract |
+| 📥 **Download Mockup** | Export high-quality PNG images |
+| 📚 **Design History** | Saves recent designs locally |
+| 🖼️ **Realistic Mockup** | SVG-based with shadows and fabric effects |
 
-**Why Flux?** Flux offers free, high-quality image generation without API keys, making it ideal for demonstrations. It produces clean, centered artwork perfect for merchandise designs with its advanced understanding of composition.
+---
 
-**How AI is Used**: Users enter a text prompt describing their design idea. The backend enhances this prompt with T-shirt-specific keywords (vector art, white background, centered composition) before sending it to Flux. The generated image is converted to base64 and displayed on a realistic SVG T-shirt mockup using CSS `mix-blend-multiply` for authentic print simulation.
+## 📝 Technical Write-up (195 words)
+
+**AI Model Used**: Pollinations Flux API (based on Black Forest Labs' FLUX.1)
+
+**Why Flux?** Flux offers high-quality, free text-to-image generation without API keys—perfect for merchandise designs with its excellent understanding of artistic styles and composition.
+
+**How AI is Used**: Users enter a prompt and optionally select a style preset (Neon, Vintage, etc.). The backend enhances prompts with T-shirt-specific keywords and appends style modifiers. Flux generates 512x512 images, which are converted to base64 and displayed on an interactive mockup. The CSS `mix-blend-multiply/screen` technique creates realistic print simulation that adapts to shirt color.
 
 **Architecture**:
-- **Frontend**: React + Vite + TailwindCSS v4 — Handles UI, user input, and renders the realistic T-shirt mockup with SVG gradients and shadows
-- **Backend**: Node.js + Express — Proxies requests to Pollinations API, enhances prompts for optimal design output, and handles image conversion
-- **AI Service**: Pollinations.ai (Flux model) — Generates 512x512 images from text prompts
+- **Frontend**: React + Vite + TailwindCSS v4 — Two-column responsive layout with color picker, style presets, design history (localStorage), and PNG export (html2canvas)
+- **Backend**: Node.js + Express — Proxies to Pollinations API, enhances prompts with style modifiers, handles image conversion
+- **AI**: Pollinations.ai Flux model — Generates artwork from combined prompt + style preset
+
+**Wow Factors**: Real-time color switching, one-click style presets, instant PNG export, persistent design gallery—making it feel like a production-ready design tool.
 
 ---
 
 ## 🏗️ Architecture
 
 ```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│    Frontend     │────▶│     Backend     │────▶│  Pollinations   │
-│  React + Vite   │     │  Node + Express │     │   Flux API      │
-│  TailwindCSS    │◀────│                 │◀────│  (AI Model)     │
-└─────────────────┘     └─────────────────┘     └─────────────────┘
-        │                       │
-        ▼                       ▼
-   Realistic SVG          Prompt Enhancement
-   T-Shirt Mockup         + Image Conversion
+┌──────────────────────────────────────────────────────────────┐
+│                        FRONTEND                               │
+│  React + Vite + TailwindCSS                                   │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐   │
+│  │ Color Picker│  │Style Presets│  │ Design History      │   │
+│  └─────────────┘  └─────────────┘  │ (localStorage)      │   │
+│                                     └─────────────────────┘   │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │ Interactive SVG T-Shirt Mockup (mix-blend-mode)         │ │
+│  └─────────────────────────────────────────────────────────┘ │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │ PNG Export (html2canvas)                                 │ │
+│  └─────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌──────────────────────────────────────────────────────────────┐
+│                        BACKEND                                │
+│  Node.js + Express                                            │
+│  - Prompt enhancement with style modifiers                    │
+│  - Image fetching and base64 conversion                       │
+│  - CORS handling for production                               │
+└──────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌──────────────────────────────────────────────────────────────┐
+│                    POLLINATIONS API                           │
+│  Flux AI Model - Text-to-Image Generation                     │
+│  - No API key required                                        │
+│  - 512x512 output                                             │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
 ## 🛠️ Local Setup
 
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-
-### Installation
-
 ```bash
-# Clone the repository
-git clone <your-repo-url>
+# Clone
+git clone https://github.com/YOUR_USERNAME/merch-ai.git
 cd merch-ai
 
-# Install backend dependencies
-cd backend
-npm install
+# Backend
+cd backend && npm install && npm start
 
-# Install frontend dependencies
-cd ../frontend
-npm install
+# Frontend (new terminal)
+cd frontend && npm install && npm run dev
 ```
 
-### Running Locally
-
-```bash
-# Terminal 1 - Start Backend (Port 3001)
-cd backend
-npm start
-
-# Terminal 2 - Start Frontend (Port 5173)
-cd frontend
-npm run dev
-```
-
-Open http://localhost:5173 in your browser.
+Open http://localhost:5173
 
 ---
 
@@ -83,51 +100,31 @@ Open http://localhost:5173 in your browser.
 ```
 merch-ai/
 ├── backend/
-│   ├── server.js          # Express API server
-│   ├── package.json        # Backend dependencies
-│   └── .env               # Environment variables
+│   ├── server.js       # Express API with prompt enhancement
+│   └── package.json
 ├── frontend/
 │   ├── src/
-│   │   ├── App.tsx        # Main React component
-│   │   ├── index.css      # TailwindCSS imports
-│   │   └── main.tsx       # React entry point
-│   ├── package.json        # Frontend dependencies
-│   └── vite.config.ts     # Vite configuration
+│   │   ├── App.tsx     # Main UI with all features
+│   │   └── index.css   # TailwindCSS config
+│   └── package.json
 └── README.md
 ```
 
 ---
 
-## 🔧 Environment Variables
+## 🚀 Deployment
 
-### Backend (.env)
-```
-PORT=3001
-```
+**Backend → Render.com**
+- Root: `backend`
+- Build: `npm install`
+- Start: `npm start`
 
-### Frontend (.env)
-```
-VITE_API_URL=http://localhost:3001
-```
-
----
-
-## ✨ Features
-
-- 🎨 **AI-Powered Design Generation** — Describe any concept and get a printable design
-- 👕 **Realistic T-Shirt Mockup** — SVG-based with fabric gradients, shadows, and fold lines
-- 🖼️ **Print Simulation** — CSS blend modes for authentic printed look
-- ⚡ **Pure TailwindCSS** — Modern, responsive UI with no custom CSS
-- 🚀 **Fast Generation** — Images generated in ~10-20 seconds
+**Frontend → Vercel**
+- Root: `frontend`
+- Env: `VITE_API_URL=https://your-backend.onrender.com`
 
 ---
 
 ## 📄 License
 
-MIT License - Feel free to use and modify!
-
----
-
-## 👨‍💻 Author
-
-Built for AI Builder Intern Assignment
+MIT License
