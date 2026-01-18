@@ -4,8 +4,8 @@
 
 ## 🚀 Live Demo
 
-- **Frontend**: [Your Vercel URL]
-- **Backend**: [Your Render URL]
+- **Frontend**: [https://merch-ai0.vercel.app/](https://merch-ai0.vercel.app/)
+- **Backend**: [https://merch-ai-7uqc.onrender.com](https://merch-ai-7uqc.onrender.com)
 
 ---
 
@@ -82,7 +82,7 @@
 
 ```bash
 # Clone
-git clone https://github.com/YOUR_USERNAME/merch-ai.git
+git clone https://github.com/Px-JebaSeelan/merch-ai.git
 cd merch-ai
 
 # Backend
@@ -120,12 +120,12 @@ merch-ai/
 - Build: `npm install`
 - Start: `npm start`
 - Environment Variables:
-    - `RENDER_EXTERNAL_URL`: `https://your-backend-app.onrender.com` (Required for Keep-Alive feature)
+    - `RENDER_EXTERNAL_URL`: `https://merch-ai-7uqc.onrender.com` (Required for Keep-Alive feature)
 
 **Frontend → Vercel**
 - Root: `frontend`
 - Environment Variables:
-    - `VITE_API_URL`: `https://your-backend-app.onrender.com`
+    - `VITE_API_URL`: `https://merch-ai-7uqc.onrender.com`
 
 ---
 
