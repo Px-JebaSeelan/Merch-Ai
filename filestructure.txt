@@ -1,0 +1,26 @@
+|-- .gitignore
+|-- backend
+    |-- .env
+    |-- package-lock.json
+    |-- package.json
+    |-- render.yaml
+    |-- server.js
+|-- frontend
+    |-- .env.example
+    |-- eslint.config.js
+    |-- index.html
+    |-- package-lock.json
+    |-- package.json
+    |-- public
+        |-- favicon.svg
+    |-- src
+        |-- App.tsx
+        |-- index.css
+        |-- main.tsx
+        |-- vite-env.d.ts
+    |-- tsconfig.app.json
+    |-- tsconfig.json
+    |-- tsconfig.node.json
+    |-- vercel.json
+    |-- vite.config.ts
+|-- README.md

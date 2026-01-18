@@ -95,6 +95,10 @@ function App() {
       saveToHistory(response.data.image, prompt);
     } catch (err) {
       console.error('Generation error:', err);
+      // Log detailed backend error if available
+      if (axios.isAxiosError(err) && err.response) {
+        console.error('Backend error details:', err.response.data);
+      }
       setError('Failed to generate design. Please try again.');
     } finally {
       setIsLoading(false);
