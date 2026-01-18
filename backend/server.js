@@ -38,12 +38,18 @@ app.post('/api/generate', async (req, res) => {
         // Function to fetch with retry logic and backoff
         const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
+
                 try {
                     const response = await fetch(url, {
                         headers: {
                             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-                        }
+                        },
+                        signal: controller.signal
                     });
+
+                    clearTimeout(timeoutId);
 
                     if (response.ok) return response;
 
@@ -59,8 +65,10 @@ app.post('/api/generate', async (req, res) => {
                     console.log(`Attempt ${i + 1} failed with status ${status}. Retrying in ${delay}ms...`);
                     throw new Error(`Status ${status}: ${text}`);
                 } catch (err) {
+                    clearTimeout(timeoutId);
                     if (i === retries - 1) throw err; // Throw on last attempt
 
+                    console.log(`Attempt ${i + 1} error: ${err.message}. Retrying in ${delay}ms...`);
                     // Wait before retrying (exponential backoff)
                     await new Promise(resolve => setTimeout(resolve, delay * (i + 1)));
                 }
