@@ -35,12 +35,40 @@ app.post('/api/generate', async (req, res) => {
         // Use Pollination's free Flux API (no API key required)
         const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?width=512&height=512&model=flux&seed=${Date.now()}&nologo=true`;
 
-        // Fetch the image from Pollinations with User-Agent header to avoid blocking
-        const response = await fetch(imageUrl, {
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        // Function to fetch with retry logic and backoff
+        const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, {
+                        headers: {
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                        }
+                    });
+
+                    if (response.ok) return response;
+
+                    // If not ok, throw error to trigger retry (unless it's a 4xx error which likely won't change)
+                    const text = await response.text();
+                    const status = response.status;
+
+                    // Don't retry client errors (except 429)
+                    if (status >= 400 && status < 500 && status !== 429) {
+                        throw new Error(`Client Error: ${status} ${response.statusText} - ${text}`);
+                    }
+
+                    console.log(`Attempt ${i + 1} failed with status ${status}. Retrying in ${delay}ms...`);
+                    throw new Error(`Status ${status}: ${text}`);
+                } catch (err) {
+                    if (i === retries - 1) throw err; // Throw on last attempt
+
+                    // Wait before retrying (exponential backoff)
+                    await new Promise(resolve => setTimeout(resolve, delay * (i + 1)));
+                }
             }
-        });
+        };
+
+        // Fetch the image from Pollinations with retry
+        const response = await fetchWithRetry(imageUrl);
 
         if (!response.ok) {
             const errorText = await response.text();
