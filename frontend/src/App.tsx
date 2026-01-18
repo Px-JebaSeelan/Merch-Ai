@@ -3,7 +3,9 @@ import axios from 'axios';
 import html2canvas from 'html2canvas';
 
 // Use environment variable for production, fallback to localhost for development
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+// Use environment variable for production, fallback to localhost for development
+// Sanitize the URL to remove trailing /api or / to avoid double paths
+const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3001').replace(/\/api\/?$/, '').replace(/\/$/, '');
 
 // T-shirt color options
 const SHIRT_COLORS = [
@@ -229,8 +231,8 @@ function App() {
                       key={preset.name}
                       onClick={() => setSelectedPreset(selectedPreset === preset.name ? null : preset.name)}
                       className={`p-3 rounded-xl border transition-all duration-200 text-center cursor-pointer ${selectedPreset === preset.name
-                          ? 'bg-violet-500/20 border-violet-500/50 shadow-lg shadow-violet-500/20'
-                          : 'bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10'
+                        ? 'bg-violet-500/20 border-violet-500/50 shadow-lg shadow-violet-500/20'
+                        : 'bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10'
                         }`}
                     >
                       <div className="text-lg mb-1">{preset.icon}</div>
@@ -249,8 +251,8 @@ function App() {
                       key={color.name}
                       onClick={() => setSelectedColor(color)}
                       className={`w-10 h-10 rounded-full border-2 transition-all duration-200 cursor-pointer ${selectedColor.name === color.name
-                          ? 'border-violet-500 scale-110 shadow-lg'
-                          : 'border-white/20 hover:scale-105'
+                        ? 'border-violet-500 scale-110 shadow-lg'
+                        : 'border-white/20 hover:scale-105'
                         }`}
                       style={{ backgroundColor: color.hex }}
                       title={color.name}
