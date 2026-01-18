@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import fetch from 'node-fetch';
 
 dotenv.config();
 
@@ -8,23 +9,8 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-const allowedOrigins = [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    process.env.FRONTEND_URL
-].filter(Boolean);
-
-app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.includes(origin) || origin.includes('vercel.app')) {
-            return callback(null, true);
-        }
-        return callback(null, true); // Allow all for now during development
-    },
-    credentials: true
-}));
+// Allow all origins to prevent CORS issues
+app.use(cors());
 app.use(express.json());
 
 // Health check endpoint
