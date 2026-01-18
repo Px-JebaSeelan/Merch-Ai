@@ -108,3 +108,22 @@ app.post('/api/generate', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`🚀 Merch AI Backend running on http://localhost:${PORT}`);
 });
+
+// Self-ping to keep Render awake (every 14 minutes)
+// Render sleeps after 15 minutes of inactivity
+if (process.env.RENDER_EXTERNAL_URL) {
+    const keepAlive = () => {
+        fetch(`${process.env.RENDER_EXTERNAL_URL}/api/health`)
+            .then(res => {
+                if (res.ok) console.log('Keep-alive ping successful');
+                else console.log('Keep-alive ping failed:', res.statusText);
+            })
+            .catch(err => console.error('Keep-alive ping error:', err.message));
+    };
+
+    // Ping immediately on start
+    keepAlive();
+
+    // Then ping every 14 minutes (14 * 60 * 1000)
+    setInterval(keepAlive, 14 * 60 * 1000);
+}

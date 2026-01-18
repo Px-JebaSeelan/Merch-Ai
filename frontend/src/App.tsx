@@ -47,6 +47,7 @@ function App() {
   const mockupRef = useRef<HTMLDivElement>(null);
 
   // Load design history from localStorage on mount
+  // Load design history from localStorage on mount
   useEffect(() => {
     const saved = localStorage.getItem('merch-ai-history');
     if (saved) {
@@ -56,6 +57,10 @@ function App() {
         console.error('Failed to load history:', e);
       }
     }
+
+    // Wake up the backend server on initial load
+    // This helps mitigate the cold start delay on free tier hosting (e.g., Render)
+    fetch(`${API_URL}/api/health`).catch(err => console.log('Wake-up ping sent:', err.message));
   }, []);
 
   // Save design to history
