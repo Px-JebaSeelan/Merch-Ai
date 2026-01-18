@@ -49,11 +49,16 @@ app.post('/api/generate', async (req, res) => {
         // Use Pollination's free Flux API (no API key required)
         const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?width=512&height=512&model=flux&seed=${Date.now()}&nologo=true`;
 
-        // Fetch the image from Pollinations
-        const response = await fetch(imageUrl);
+        // Fetch the image from Pollinations with User-Agent header to avoid blocking
+        const response = await fetch(imageUrl, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            }
+        });
 
         if (!response.ok) {
-            throw new Error(`Failed to generate image: ${response.statusText}`);
+            const errorText = await response.text();
+            throw new Error(`Failed to generate image: ${response.status} ${response.statusText} - ${errorText}`);
         }
 
         // Convert to base64
