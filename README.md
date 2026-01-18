@@ -19,6 +19,7 @@
 | 📥 **Download Mockup** | Export high-quality PNG images |
 | 📚 **Design History** | Saves recent designs locally |
 | 🖼️ **Realistic Mockup** | SVG-based with shadows and fabric effects |
+| ⚡ **Smart Optimization** | Self-healing backend with retry logic and cold-start mitigation |
 
 ---
 
@@ -28,14 +29,14 @@
 
 **Why Flux?** Flux offers high-quality, free text-to-image generation without API keys—perfect for merchandise designs with its excellent understanding of artistic styles and composition.
 
-**How AI is Used**: Users enter a prompt and optionally select a style preset (Neon, Vintage, etc.). The backend enhances prompts with T-shirt-specific keywords and appends style modifiers. Flux generates 512x512 images, which are converted to base64 and displayed on an interactive mockup. The CSS `mix-blend-multiply/screen` technique creates realistic print simulation that adapts to shirt color.
+**How AI is Used**: Users enter a prompt. The backend improves it with T-shirt specific keywords, selects a style, and requests the image. We use a **robust backend architecture** that handles timeouts, retries throttled requests, and mitigates cold starts on free hosting tiers.
 
 **Architecture**:
 - **Frontend**: React + Vite + TailwindCSS v4 — Two-column responsive layout with color picker, style presets, design history (localStorage), and PNG export (html2canvas)
-- **Backend**: Node.js + Express — Proxies to Pollinations API, enhances prompts with style modifiers, handles image conversion
+- **Backend**: Node.js + Express — Proxies to Pollinations API with exponential backoff retry logic, user-agent mimicking, and self-ping keep-alive.
 - **AI**: Pollinations.ai Flux model — Generates artwork from combined prompt + style preset
 
-**Wow Factors**: Real-time color switching, one-click style presets, instant PNG export, persistent design gallery—making it feel like a production-ready design tool.
+**Wow Factors**: Real-time color switching, one-click style presets, instant PNG export, persistent design gallery, and a **"Wake-on-visit"** system that starts the server instantly when a user arrives.
 
 ---
 
@@ -53,7 +54,7 @@
 │  │ Interactive SVG T-Shirt Mockup (mix-blend-mode)         │ │
 │  └─────────────────────────────────────────────────────────┘ │
 │  ┌─────────────────────────────────────────────────────────┐ │
-│  │ PNG Export (html2canvas)                                 │ │
+│  │ Wake-on-Visit Ping                                      │ │
 │  └─────────────────────────────────────────────────────────┘ │
 └──────────────────────────────────────────────────────────────┘
                               │
@@ -61,9 +62,9 @@
 ┌──────────────────────────────────────────────────────────────┐
 │                        BACKEND                                │
 │  Node.js + Express                                            │
-│  - Prompt enhancement with style modifiers                    │
-│  - Image fetching and base64 conversion                       │
-│  - CORS handling for production                               │
+│  - Robust Fetch with Retry Logic (Exponential Backoff)        │
+│  - Self-Ping Keep-Alive (Prevents Sleep)                      │
+│  - CORS / User-Agent Handling                                 │
 └──────────────────────────────────────────────────────────────┘
                               │
                               ▼
@@ -100,7 +101,7 @@ Open http://localhost:5173
 ```
 merch-ai/
 ├── backend/
-│   ├── server.js       # Express API with prompt enhancement
+│   ├── server.js       # Express API with retry logic & keep-alive
 │   └── package.json
 ├── frontend/
 │   ├── src/
@@ -118,10 +119,13 @@ merch-ai/
 - Root: `backend`
 - Build: `npm install`
 - Start: `npm start`
+- Environment Variables:
+    - `RENDER_EXTERNAL_URL`: `https://your-backend-app.onrender.com` (Required for Keep-Alive feature)
 
 **Frontend → Vercel**
 - Root: `frontend`
-- Env: `VITE_API_URL=https://your-backend.onrender.com`
+- Environment Variables:
+    - `VITE_API_URL`: `https://your-backend-app.onrender.com`
 
 ---
 
