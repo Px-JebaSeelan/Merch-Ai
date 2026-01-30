@@ -149,19 +149,19 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white font-sans antialiased">
       {/* Header */}
-      <header className="w-full py-4 px-6 border-b border-white/5">
+      <header className="w-full py-3 sm:py-4 px-4 sm:px-6 border-b border-white/5">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-violet-500/25">
-              <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-violet-500/25">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
             </div>
             <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+              <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
                 Merch AI
               </h1>
-              <p className="text-xs text-white/40">AI-Powered Design Studio</p>
+              <p className="text-xs text-white/40 hidden xs:block">AI-Powered Design Studio</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -171,27 +171,27 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 px-6 py-8">
+      <main className="flex-1 px-4 sm:px-6 py-6 sm:py-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
             {/* Left Column - Controls */}
             <div className="space-y-6">
               {/* Hero Text */}
-              <div className="mb-6">
-                <h2 className="text-3xl md:text-4xl font-bold mb-2">
+              <div className="mb-4 sm:mb-6">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
                   <span className="bg-gradient-to-r from-white via-violet-200 to-fuchsia-200 bg-clip-text text-transparent">
                     Create Your Design
                   </span>
                 </h2>
-                <p className="text-white/50 text-sm">
+                <p className="text-white/50 text-sm sm:text-base">
                   Describe your vision and watch AI bring it to life
                 </p>
               </div>
 
               {/* Prompt Input */}
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-3 sm:p-4">
                 <label className="text-xs text-white/50 uppercase tracking-wider mb-2 block">Design Prompt</label>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="text"
                     value={prompt}
@@ -199,12 +199,12 @@ function App() {
                     onKeyPress={handleKeyPress}
                     placeholder="A majestic lion with a crown, cosmic background..."
                     disabled={isLoading}
-                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all duration-300 disabled:opacity-50 text-sm"
+                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 sm:px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all duration-300 disabled:opacity-50 text-sm"
                   />
                   <button
                     onClick={handleGenerate}
                     disabled={isLoading}
-                    className="px-6 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center gap-2 cursor-pointer text-sm"
+                    className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2 cursor-pointer text-sm"
                   >
                     {isLoading ? (
                       <>
@@ -212,7 +212,8 @@ function App() {
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                         </svg>
-                        <span>Generating High-Quality Design...</span>
+                        <span className="hidden sm:inline">Generating High-Quality Design...</span>
+                        <span className="sm:hidden">Generating...</span>
                       </>
                     ) : (
                       <>
@@ -232,19 +233,19 @@ function App() {
               </div>
 
               {/* Style Presets */}
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-3 sm:p-4">
                 <label className="text-xs text-white/50 uppercase tracking-wider mb-3 block">Style Presets</label>
-                <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-6 gap-2">
                   {STYLE_PRESETS.map((preset) => (
                     <button
                       key={preset.name}
                       onClick={() => setSelectedPreset(selectedPreset === preset.name ? null : preset.name)}
-                      className={`p-3 rounded-xl border transition-all duration-200 text-center cursor-pointer ${selectedPreset === preset.name
+                      className={`p-2.5 sm:p-3 rounded-xl border transition-all duration-200 text-center cursor-pointer min-h-[60px] sm:min-h-0 ${selectedPreset === preset.name
                         ? 'bg-violet-500/20 border-violet-500/50 shadow-lg shadow-violet-500/20'
                         : 'bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10'
                         }`}
                     >
-                      <div className="text-lg mb-1">{preset.icon}</div>
+                      <div className="text-base sm:text-lg mb-1">{preset.icon}</div>
                       <div className="text-xs text-white/70">{preset.name}</div>
                     </button>
                   ))}
@@ -252,14 +253,14 @@ function App() {
               </div>
 
               {/* T-Shirt Color Picker */}
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-3 sm:p-4">
                 <label className="text-xs text-white/50 uppercase tracking-wider mb-3 block">T-Shirt Color</label>
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex gap-2 flex-wrap items-center">
                   {SHIRT_COLORS.map((color) => (
                     <button
                       key={color.name}
                       onClick={() => setSelectedColor(color)}
-                      className={`w-10 h-10 rounded-full border-2 transition-all duration-200 cursor-pointer ${selectedColor.name === color.name
+                      className={`w-11 h-11 sm:w-10 sm:h-10 rounded-full border-2 transition-all duration-200 cursor-pointer ${selectedColor.name === color.name
                         ? 'border-violet-500 scale-110 shadow-lg'
                         : 'border-white/20 hover:scale-105'
                         }`}
@@ -273,7 +274,7 @@ function App() {
 
               {/* Design History */}
               {designHistory.length > 0 && (
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4">
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-3 sm:p-4">
                   <div className="flex items-center justify-between mb-3">
                     <label className="text-xs text-white/50 uppercase tracking-wider">Recent Designs</label>
                     <button
@@ -283,12 +284,12 @@ function App() {
                       Clear All
                     </button>
                   </div>
-                  <div className="flex gap-2 overflow-x-auto pb-2">
+                  <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
                     {designHistory.map((item) => (
                       <button
                         key={item.id}
                         onClick={() => applyFromHistory(item)}
-                        className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 border-white/10 hover:border-violet-500/50 transition-all duration-200 cursor-pointer hover:scale-105"
+                        className="flex-shrink-0 w-16 h-16 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 border-white/10 hover:border-violet-500/50 transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
                       >
                         <img src={item.image} alt="History" className="w-full h-full object-cover" />
                       </button>
@@ -301,7 +302,7 @@ function App() {
             {/* Right Column - Mockup */}
             <div className="flex flex-col items-center">
               {/* Mockup Container */}
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 w-full max-w-md">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 w-full max-w-md">
                 <div ref={mockupRef} className="relative w-full aspect-[4/5]">
                   {/* T-Shirt Base SVG */}
                   <svg
@@ -377,7 +378,7 @@ function App() {
                   <button
                     onClick={handleDownload}
                     disabled={isDownloading}
-                    className="mt-4 w-full py-3 bg-white/10 hover:bg-white/15 border border-white/10 rounded-xl text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                    className="mt-4 w-full py-3 bg-white/10 hover:bg-white/15 border border-white/10 rounded-xl text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 active:scale-95"
                   >
                     {isDownloading ? (
                       <>
@@ -392,7 +393,8 @@ function App() {
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
-                        <span>Download Mockup</span>
+                        <span className="hidden xs:inline">Download Mockup</span>
+                        <span className="xs:hidden">Download</span>
                       </>
                     )}
                   </button>
@@ -400,9 +402,9 @@ function App() {
               </div>
 
               {/* Feature Pills */}
-              <div className="flex flex-wrap justify-center gap-2 mt-6">
+              <div className="flex flex-wrap justify-center gap-2 mt-4 sm:mt-6">
                 {['AI-Powered', 'Instant Export', 'Multiple Colors', 'Style Presets'].map((feature) => (
-                  <span key={feature} className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-white/50">
+                  <span key={feature} className="px-2.5 sm:px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-white/50">
                     {feature}
                   </span>
                 ))}
@@ -413,8 +415,8 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="py-4 px-6 border-t border-white/5">
-        <div className="max-w-7xl mx-auto flex items-center justify-between text-xs text-white/30">
+      <footer className="py-3 sm:py-4 px-4 sm:px-6 border-t border-white/5">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-2 sm:gap-0 text-xs text-white/30">
           <p>Powered by Pollinations Flux AI</p>
           <p>Built with React + TailwindCSS</p>
         </div>

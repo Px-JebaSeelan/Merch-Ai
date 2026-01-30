@@ -9,4 +9,5 @@
     --color-fuchsia-400: #e879f9;
     --color-fuchsia-500: #d946ef;
     --color-fuchsia-600: #c026d3;
+    --breakpoint-xs: 480px;
 }
